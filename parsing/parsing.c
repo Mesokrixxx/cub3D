@@ -6,7 +6,7 @@
 /*   By: aflandin <aflandin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:38:22 by aflandin          #+#    #+#             */
-/*   Updated: 2025/12/15 09:18:35 by aflandin         ###   ########.fr       */
+/*   Updated: 2026/01/28 14:36:26 by aflandin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,23 @@ t_vec2i	map_get_dimension(t_map *map)
 	t_vec2i	wpos;
 	int		i;
 
+	wpos = (t_vec2i){0};
 	max = (t_vec2i){0};
 	i = 0;
-	while (i < map->wallcount)
+	while (map->content[i])
 	{
-		wpos = map->walls[i];
-		if (wpos.x > max.x)
-			max.x = wpos.x;
-		if (wpos.y > max.y)
-			max.y = wpos.y;
+		if (map->content[i] == '\n') {
+			max.y++;
+			if (wpos.x > max.x)
+				max.x = wpos.x;
+			wpos.x = 0;
+		} else {
+			wpos.x++;
+		}
 		i++;
 	}
+	if (wpos.x > max.x)
+		max.x = wpos.x;
 	return (max);
 }
 
